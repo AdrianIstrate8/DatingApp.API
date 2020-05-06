@@ -11,6 +11,8 @@
 *.sln.docstates
 *.db
 appsettings.json
+DatingApp.db-shm
+DatingApp.db-wal
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
