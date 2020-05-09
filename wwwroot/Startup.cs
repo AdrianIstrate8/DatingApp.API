@@ -36,6 +36,9 @@ namespace DatingApp.API
 
             //Add Cors so the browser can trust our API
             services.AddCors();
+
+            //in this way, properties that are stored in appSettings are transfered to cloudinarySettings class
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IDatingRepository, DatingRepository>();
@@ -91,7 +94,8 @@ namespace DatingApp.API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                //endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }
