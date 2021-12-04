@@ -23,7 +23,7 @@ namespace DatingApp.API.Controllers
         private readonly IDatingRepository _repo;
         private readonly IMapper _mapper;
         private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
-        private Cloudinary _cloudinary;
+        private readonly Cloudinary _cloudinary;
 
         public PhotosController(IDatingRepository repo, IMapper mapper, IOptions<CloudinarySettings> cloudinaryConfig)
         {
@@ -64,16 +64,14 @@ namespace DatingApp.API.Controllers
 
             if (file.Length > 0)
             {
-                using (var stream = file.OpenReadStream())
+                using var stream = file.OpenReadStream();
+                var uploadParams = new ImageUploadParams()
                 {
-                    var uploadParams = new ImageUploadParams()
-                    {
-                        File = new FileDescription(file.Name, stream),
-                        Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
-                    };
+                    File = new FileDescription(file.Name, stream),
+                    Transformation = new Transformation().Width(500).Height(500).Crop("fill").Gravity("face")
+                };
 
-                    uploadResult = _cloudinary.Upload(uploadParams);
-                }
+                uploadResult = _cloudinary.Upload(uploadParams);
             }
 
             photoForCreationDto.Url = uploadResult.Uri.ToString();

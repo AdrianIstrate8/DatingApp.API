@@ -7,12 +7,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 
 namespace DatingApp.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
 
@@ -27,7 +28,7 @@ namespace DatingApp.API
 
                     context.Database.Migrate();
 
-                    Seed.SeedUsers(userManager, roleManager);
+                    await Seed.SeedUsers(userManager, roleManager);
                 }
                 catch (Exception ex)
                 {

@@ -10,6 +10,7 @@
 *.userosscache
 *.sln.docstates
 *.db
+wwwroot
 appsettings.json
 DatingApp.db-shm
 DatingApp.db-wal

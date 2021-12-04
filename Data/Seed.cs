@@ -11,7 +11,7 @@ namespace DatingApp.API.Data
 {
     public class Seed
     {
-        public static void SeedUsers(UserManager<User> userManager, RoleManager<Role> roleManager)
+        public static async Task SeedUsers(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             if (!userManager.Users.Any())
             {
@@ -35,8 +35,8 @@ namespace DatingApp.API.Data
                 foreach (var user in users)
                 {
                     user.Photos.SingleOrDefault().IsApproved = true;
-                    userManager.CreateAsync(user, "password").Wait();
-                    userManager.AddToRoleAsync(user, "Member");
+                    await userManager.CreateAsync(user, "password");
+                    await userManager.AddToRoleAsync(user, "Member");
                 }
 
                 //create admin user
@@ -50,7 +50,7 @@ namespace DatingApp.API.Data
                 if (result.Succeeded)
                 {
                     var admin = userManager.FindByNameAsync("Admin").Result;
-                    userManager.AddToRolesAsync(admin, new[] { "Admin", "Moderator" });
+                    await userManager.AddToRolesAsync(admin, new[] { "Admin", "Moderator" });
                 }
             }
         }
